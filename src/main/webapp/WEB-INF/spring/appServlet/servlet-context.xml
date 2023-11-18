@@ -7,6 +7,9 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+		
+		<!-- 이파일은 디스패처 서블릿이지만 핸들러매핑클래스가 없는 이유는 @애너테이션으로 해줬을 가능성이 높기 때문이다. -->
+		
 
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	
@@ -14,8 +17,13 @@
 	<annotation-driven />
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
+	<!-- 정적인 자원들 매핑해주고 위치설정?  -->
 	<resources mapping="/resources/**" location="/resources/" />
+	
+	
+	
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
+	<!-- TilesConfigurer은 타일즈의 설정파일들의 위치를 지정한다. -->
 <beans:bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
 	<beans:property name="definitions">
 		<beans:list>
@@ -27,7 +35,10 @@
 <beans:bean id="viewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver"> 
 	<beans:property name="viewClass" value="org.springframework.web.servlet.view.tiles2.TilesView"/> 
 </beans:bean>
+
+<!-- 지정된 패키지에서 스테레오타입4가지를 찾아 에너테이션이 붙은 클래스를 찾고 빈으로 등록한다. -->
 	<context:component-scan base-package="com.bookshop01" />
+	
 	
 	<mvc:interceptors>
   <mvc:interceptor>

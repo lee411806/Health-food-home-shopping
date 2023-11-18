@@ -2,6 +2,9 @@
 <web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+	
+	<!-- CharacterEncodingFilter는 스프링프레임워크게 있음  -->
+	<!--  지금 요청과 응답을 utf-8로 설정해준다 -->
    <filter>
         <filter-name>encodingFilter</filter-name>
         <filter-class>
@@ -16,19 +19,30 @@
         <filter-name>encodingFilter</filter-name>
         <url-pattern>/*</url-pattern>
 </filter-mapping>
-
+	
+	
+	<!-- 여기서는 rootContext대신에 이름을 mybatis.xml로 써준것임 -->
+	<!-- rootContext를 가 실행되면 ApplicationContext 객체각 만들어진다. 이 객체는 스프링의 빈들을 담고 다닌다. -->
 	<!-- The definition of the Root Spring Container shared by all Servlets and Filters -->
+	<!-- rootContext리스너에서 초기화하는 root-context경로 지정  -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>/WEB-INF/spring/mybatis-context.xml</param-value>
 	</context-param>
 	
 	<!-- Creates the Spring Container shared by all Servlets and Filters -->
+	<!-- 루트 컨텍스트 초기화 -->
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 
+
+
+
+
 	<!-- Processes application requests -->
+	<!-- appServlet은 DispatcherServlet 클래스의 서블릿이름으로 지정된것이다.  -->
+	<!-- 디스패처 서블릿이 초기화 될 때 servlet-context.xml이라는 파일이 contextconfigLocation이라는 이름으로 로딩된다. -->
 	<servlet>
 		<servlet-name>appServlet</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -39,6 +53,7 @@
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 		
+		<!-- appServlet이라는 디스패처 서블릿은 / 즉 모든 경로에 포함된다.-->
 	<servlet-mapping>
 		<servlet-name>appServlet</servlet-name>
 		<url-pattern>/</url-pattern>
